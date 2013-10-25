@@ -1,17 +1,18 @@
 package filters
 
 import (
-  "appengine"
-  "log"
-  "net/http"
+	"log"
+	"net/http"
+
+	"appengine"
+
+	"app/utils"
 )
 
-import u "app/utils"
-
 func AppengineContext(handler http.HandlerFunc) http.HandlerFunc {
-  log.Println("AppengineContext filter")
-  return func(w http.ResponseWriter, r *http.Request) {
-    u.Model.Context = appengine.NewContext(r)
-    handler(w, r)
-  }
+	log.Println("AppengineContext filter")
+	return func(w http.ResponseWriter, r *http.Request) {
+		utils.Model.Context = appengine.NewContext(r)
+		handler(w, r)
+	}
 }

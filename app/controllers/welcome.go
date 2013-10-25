@@ -1,19 +1,17 @@
 package controllers
 
 import (
-  "net/http"
-)
+	"net/http"
 
-import (
-  v "app/views"
+	"app/views"
 )
 
 var (
-  welcomeTmpl = v.GetTemplates("app/views/welcome.html")
+	welcomeTmpl = views.GetTemplates("app/views/welcome.html")
 )
 
 func Welcome(w http.ResponseWriter, r *http.Request) {
-  w.Header().Set("Content-type", "text/html; charset=UTF-8")
+	w.Header().Set("Content-type", "text/html; charset=UTF-8")
 
-  v.RenderTemplate(welcomeTmpl, w, "welcome.html", nil)
+	views.RenderTemplate(welcomeTmpl, w, "welcome.html", nil)
 }

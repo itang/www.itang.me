@@ -1,9 +1,9 @@
 package filters
 
 import (
-  u "app/utils"
+	"app/utils"
 )
 
 var (
-  Full = u.Comp(CatchErr, AppengineContext)
+	Full = utils.Comp(CatchErr, AppengineContext)
 )

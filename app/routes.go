@@ -1,21 +1,19 @@
 package app
 
 import (
-  "github.com/bmizerany/pat"
-  "net/http"
-)
+	"net/http"
 
-import (
-  c "app/controllers"
-  //f "app/filters"
+	"github.com/bmizerany/pat"
+
+	"app/controllers"
 )
 
 func init() {
-  m := pat.New()
+	m := pat.New()
 
-  //m.Get("/", f.Full(c.Welcome))
-  m.Get("/", http.HandlerFunc(c.Welcome))
-  m.Get("/wakeup", http.HandlerFunc(c.Wakeup))
+	//m.Get("/", f.Full(c.Welcome))
+	m.Get("/", http.HandlerFunc(controllers.Welcome))
+	m.Get("/wakeup", http.HandlerFunc(controllers.Wakeup))
 
-  http.Handle("/", m)
+	http.Handle("/", m)
 }
