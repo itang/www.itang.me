@@ -5,16 +5,16 @@ import (
 
 	"github.com/bmizerany/pat"
 
-	"app/controllers"
+	. "app/controllers"
 )
 
 func init() {
 	m := pat.New()
 
 	//m.Get("/", f.Full(c.Welcome))
-	m.Get("/", http.HandlerFunc(controllers.Welcome))
-	m.Get("/wakeup", http.HandlerFunc(controllers.Wakeup))
-	m.Get("/todo", http.HandlerFunc(controllers.Todo))
+	m.Get("/", &Handler{&WelcomeAction{}})
+	m.Get("/wakeup", http.HandlerFunc(Wakeup))
+	m.Get("/todo", &Handler{&TodoAction{}})
 
 	http.Handle("/", m)
 }

@@ -8,11 +8,12 @@ import (
 )
 
 type Render struct {
-	writer http.ResponseWriter
+	writer  http.ResponseWriter
+	request *http.Request
 }
 
-func New(w http.ResponseWriter) *Render {
-	return &Render{w}
+func New(w http.ResponseWriter, r *http.Request) *Render {
+	return &Render{w, r}
 }
 
 func (this *Render) RenderTemplate(name string, data interface{}) error {

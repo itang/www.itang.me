@@ -1,11 +1,9 @@
 package controllers
 
-import (
-	"net/http"
+type WelcomeAction struct {
+	Action
+}
 
-	"app/views"
-)
-
-func Welcome(w http.ResponseWriter, r *http.Request) {
-	views.New(w).RenderTemplate("welcome.html", nil)
+func (this *WelcomeAction) Apply() {
+	this.Render().RenderTemplate("welcome.html", nil)
 }
