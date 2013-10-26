@@ -14,6 +14,7 @@ func init() {
 	//m.Get("/", f.Full(c.Welcome))
 	m.Get("/", http.HandlerFunc(controllers.Welcome))
 	m.Get("/wakeup", http.HandlerFunc(controllers.Wakeup))
+	m.Get("/todo", http.HandlerFunc(controllers.Todo))
 
 	http.Handle("/", m)
 }
