@@ -11,7 +11,7 @@ type WakeupAction struct {
 	gaemvc.GaeAction
 }
 
-func (this *WakeupAction) Wakeup() {
+func (this *WakeupAction) Apply() {
 	resp, err := this.HttpClient().Get("http://apps.itang.me")
 	if err != nil {
 		this.SendError(err.Error(), http.StatusInternalServerError)

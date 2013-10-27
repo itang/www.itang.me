@@ -1,6 +1,7 @@
 package gaemvc
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 	"reflect"
@@ -39,7 +40,7 @@ func (this *Action) Render() *Render {
 	return NewRender(this.Writer, this.Req)
 }
 
-func (this *Action) SendError(err error, int status) {
+func (this *Action) SendError(err string, status int) {
 	http.Error(this.Writer, err, status)
 }
 
