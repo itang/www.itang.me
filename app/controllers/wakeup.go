@@ -4,17 +4,18 @@ import (
 	"fmt"
 	"net/http"
 
-	"appengine"
-	"appengine/urlfetch"
+	"github.com/itang/gaemvc"
 )
 
-func Wakeup(w http.ResponseWriter, r *http.Request) {
-	c := appengine.NewContext(r)
-	client := urlfetch.Client(c)
-	resp, err := client.Get("http://apps.itang.me")
+type WakeupAction struct {
+	gaemvc.GaeAction
+}
+
+func (this *WakeupAction) Wakeup() {
+	resp, err := this.HttpClient().Get("http://apps.itang.me")
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		this.SendError(err.Error(), http.StatusInternalServerError)
 		return
 	}
-	fmt.Fprintf(w, "HTTP GET returned status %v", resp.Status)
+	this.Send(fmt.Sprintf("HTTP GET returned status %v", resp.Status))
 }

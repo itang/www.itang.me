@@ -4,10 +4,11 @@ import (
 	"log"
 
 	"github.com/google/go-github/github"
+	"github.com/itang/gaemvc"
 )
 
 type TodoAction struct {
-	Action
+	gaemvc.GaeGithubAction
 }
 
 func (this *TodoAction) Apply() {

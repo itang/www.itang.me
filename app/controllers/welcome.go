@@ -1,7 +1,11 @@
 package controllers
 
+import (
+	"github.com/itang/gaemvc"
+)
+
 type WelcomeAction struct {
-	Action
+	gaemvc.GaeAction
 }
 
 func (this *WelcomeAction) Apply() {

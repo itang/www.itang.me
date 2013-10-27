@@ -1,4 +1,4 @@
-package views
+package gaemvc
 
 import (
 	"fmt"
@@ -12,12 +12,13 @@ type Render struct {
 	request *http.Request
 }
 
-func New(w http.ResponseWriter, r *http.Request) *Render {
+func NewRender(w http.ResponseWriter, r *http.Request) *Render {
 	return &Render{w, r}
 }
 
 func (this *Render) RenderTemplate(name string, data interface{}) error {
 	this.SetHtmlContentType()
+
 	return templates.ExecuteTemplate(this.writer, name, data)
 }
 
@@ -48,6 +49,7 @@ var (
 		"Format": func(t time.Time) string { return t.Format("2006-01-02") },
 	}
 
+	//TODO: Auto scan templates
 	templates = getTemplates("app/views/welcome.html",
 		"app/views/todo.html")
 )
