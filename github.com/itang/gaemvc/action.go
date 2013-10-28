@@ -11,25 +11,37 @@ import (
 	"github.com/google/go-github/github"
 )
 
-type IAction interface {
-	Apply()
+func Handler(action IAction) http.Handler {
+	return &actionWrapper{action}
 }
 
-type Handler struct {
+type actionWrapper struct {
 	Action IAction
 }
 
-func (this *Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+func (this *actionWrapper) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	vi := newFromInstance(this.Action)
-	vi.Elem().FieldByName("Action").Set(reflect.ValueOf(Action{w, r}))
+	//vi.Elem().FieldByName("Action").Set(reflect.ValueOf(Action{w, r}))
 	action, _ := vi.Interface().(IAction)
+
+	action.Init(w, r)
 
 	action.Apply() //vi.MethodByName("Apply").Call(nil)
 }
 
+type IAction interface {
+	Init(w http.ResponseWriter, r *http.Request)
+	Apply()
+}
+
 type Action struct {
-	Writer http.ResponseWriter
-	Req    *http.Request
+	Resp http.ResponseWriter
+	Req  *http.Request
+}
+
+func (this *Action) Init(w http.ResponseWriter, r *http.Request) {
+	this.Resp = w
+	this.Req = r
 }
 
 func (this *Action) Apply() {
@@ -37,15 +49,15 @@ func (this *Action) Apply() {
 }
 
 func (this *Action) Render() *Render {
-	return NewRender(this.Writer, this.Req)
+	return NewRender(this.Resp, this.Req)
 }
 
 func (this *Action) SendError(err string, status int) {
-	http.Error(this.Writer, err, status)
+	http.Error(this.Resp, err, status)
 }
 
 func (this *Action) Send(content string) {
-	fmt.Fprintf(this.Writer, content)
+	fmt.Fprintf(this.Resp, content)
 }
 
 type GaeAction struct {
