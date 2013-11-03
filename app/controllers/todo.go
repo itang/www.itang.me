@@ -24,3 +24,16 @@ func (this *TodoAction) Apply() {
 		})
 	}
 }
+
+type MyTodoCountAction struct {
+	gaemvc.GaeGithubAction
+}
+
+func (this *MyTodoCountAction) Apply() {
+	issues, _, err := this.GithubClient().Issues.ListByRepo("itang", "todo.itang.me", nil)
+	if err == nil {
+		this.Send(len(issues))
+	} else {
+		this.Send("0")
+	}
+}

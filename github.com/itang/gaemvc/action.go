@@ -57,8 +57,8 @@ func (this *Action) SendError(err string, status int) {
 	http.Error(this.Resp, err, status)
 }
 
-func (this *Action) Send(content string) {
-	fmt.Fprintf(this.Resp, content)
+func (this *Action) Send(content interface{}) {
+	fmt.Fprint(this.Resp, content)
 }
 
 type GaeAction struct {
