@@ -8,6 +8,7 @@ import (
 
 	"appengine"
 	"appengine/urlfetch"
+	"code.google.com/p/goauth2/oauth"
 	"github.com/google/go-github/github"
 )
 
@@ -83,8 +84,12 @@ func (this *GaeGithubAction) GithubClient() *github.Client {
 // --------------------------------------------------------
 
 func GithubClient(r *http.Request) *github.Client {
-	httpClient := urlfetch.Client(appengine.NewContext(r))
-	return github.NewClient(httpClient)
+	t := oauth.Transport{
+		Token:     &oauth.Token{AccessToken: "458a1257f03e0f5d65ebe83783349ce55007c89b"},
+		Transport: &urlfetch.Transport{Context: appengine.NewContext(r)},
+	}
+
+	return github.NewClient(t.Client())
 }
 
 func newFromInstance(i interface{}) reflect.Value {
